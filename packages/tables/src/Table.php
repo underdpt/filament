@@ -16,6 +16,11 @@ class Table
 
     protected $filters = [];
 
+    /**
+     * @var string|null $defaultFilter
+     */
+    protected $defaultFilter = null;
+
     protected $livewire;
 
     protected $primaryColumnAction;
@@ -72,6 +77,17 @@ class Table
         return $this;
     }
 
+    public function defaultFilter(string $filter)
+    {
+        if (collect($this->filters)->map->getName()->contains($filter) !== true) {
+            throw new \UnexpectedValueException('Unable to find any filter named ' . $filter);
+        }
+
+        $this->defaultFilter = $filter;
+
+        return $this;
+    }
+
     public static function for($livewire)
     {
         return (new static())->livewire($livewire);
@@ -105,6 +121,11 @@ class Table
     public function getFilters()
     {
         return $this->filters;
+    }
+
+    public function getDefaultFilter()
+    {
+        return $this->defaultFilter;
     }
 
     public function getLivewire()
