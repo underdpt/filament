@@ -255,7 +255,8 @@ class FilamentServiceProvider extends ServiceProvider
             })
             ->filter(function ($class) {
                 return is_subclass_of($class, Widget::class) &&
-                    ! (new ReflectionClass($class))->isAbstract();
+                    ! (new ReflectionClass($class))->isAbstract() &&
+                    ($class::$hidden ?? false) === false;
             })
             ->sortBy(fn ($widget) => $widget::$sort ?? 0)
             ->each(fn ($widget) => Filament::registerWidget($widget));
