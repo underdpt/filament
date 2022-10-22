@@ -35,9 +35,7 @@ class RestoreAction extends Action
         $this->action(function (): void {
             $result = $this->process(function (Model $record): bool|null {
                 if (! method_exists($record, 'restore')) {
-                    $this->failure();
-
-                    return;
+                    return false;
                 }
 
                 return $record->restore();
