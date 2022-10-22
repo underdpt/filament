@@ -33,7 +33,7 @@ class RestoreAction extends Action
         $this->requiresConfirmation();
 
         $this->action(function (): void {
-            $result = $this->process(function (Model $record): void {
+            $result = $this->process(function (Model $record): bool|null {
                 if (! method_exists($record, 'restore')) {
                     $this->failure();
 
